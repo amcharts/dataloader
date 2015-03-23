@@ -2,7 +2,7 @@
 Plugin Name: amCharts Data Loader
 Description: This plugin adds external data loading capabilities to all amCharts libraries.
 Author: Martynas Majeris, amCharts
-Version: 0.9
+Version: 0.9.1
 Author URI: http://www.amcharts.com/
 
 Copyright 2015 amCharts
@@ -78,6 +78,12 @@ AmCharts.addInitHandler( function ( chart ) {
     // delay this a little bit so the chart has the chance to build itself
     setTimeout( function () {
 
+      // preserve animation
+      if ( 0 > chart.panelsSettings.startDuration ) {
+        l.startDuration = chart.panelsSettings.startDuration;
+        chart.panelsSettings.startDuration = 0;
+      }
+
       // cycle through all of the data sets
       for ( var x in chart.dataSets ) {
         var ds = chart.dataSets[ x ];
@@ -110,6 +116,12 @@ AmCharts.addInitHandler( function ( chart ) {
 
     if ( undefined === l.url )
       return;
+
+    // preserve animation
+    if ( undefined !== chart.startDuration && ( 0 < chart.startDuration ) ) {
+      l.startDuration = chart.startDuration;
+      chart.startDuration = 0;
+    }
 
     chart.dataProvider = [];
     loadFile( l.url, chart, l, 'dataProvider' );
@@ -187,8 +199,26 @@ AmCharts.addInitHandler( function ( chart ) {
 
             if ( 'map' === chart.type )
               chart.validateNow( true );
-            else
+            else {
+              
+              // take in new data
               chart.validateData();
+
+              // make the chart animate again
+              if ( l.startDuration ) {
+                if ( 'stock' === chart.type ) {
+                  chart.panelsSettings.startDuration = l.startDuration;
+                  for ( var x in chart.panels ) {
+                    chart.panels[x].startDuration = l.startDuration;
+                    chart.panels[x].animateAgain();
+                  }
+                }
+                else {
+                  chart.startDuration = l.startDuration;
+                  chart.animateAgain();
+                }
+              }
+            }
           }
 
           // restore default period

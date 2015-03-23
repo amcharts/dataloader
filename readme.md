@@ -1,6 +1,6 @@
 # amCharts Data Loader
 
-Version: 0.9
+Version: 0.9.1
 
 
 ## Description
@@ -17,7 +17,7 @@ source - static file or dynamically generated - and it will do the rest.
 
 ## Usage
 
-1. Include the minified version of file of this plugin. I.e.:
+### 1) Include the minified version of file of this plugin. I.e.:
 
 ```
 <script src="amcharts/plugins/dataloader/dataloader.min.js" type="text/javascript"></script>
@@ -25,7 +25,7 @@ source - static file or dynamically generated - and it will do the rest.
 
 (this needs to go after all the other amCharts includes)
 
-2. Add data source properties to your chart configuration.
+### 2) Add data source properties to your chart configuration.
 
 Regular (Serial, Pie, etc.) charts:
 
@@ -171,7 +171,7 @@ Stock Chart or JavaScript Maps.
 
 ## Demos
 
-Run the index.html in the subdirectory /examples.
+They're all in subdirectory /examples.
 
 
 ## Extending this plugin
@@ -209,6 +209,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 
 ## Changelog
+
+### 0.9.1
+* Fix chart animations not playing after asynchronous load
 
 ### 0.9
 * Initial release
