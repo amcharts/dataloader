@@ -49,8 +49,9 @@ AmCharts.makeChart( "chartdiv", {
     "dataLoader": {
       "url": "data.csv"
       "format": "csv",
-      "separator": ",",  // column separator (could be any symbol or "tab")
-      "skipLines": 1     // skip header row
+      "delimiter": ",",       // column separator
+      "useColumnNames": true, // use first row for column names
+      "skip": 1               // skip header row
     }
   }]
 } );
@@ -62,9 +63,104 @@ populated with their content *before* the chart is built.
 Some formats, like CSV, will require additional parameters needed to parse the 
 data, such as "separator".
 
-If the "format" is omitted, the plugin will try to guess the format on it's own.
-(using file name extension and / or HTTP response headers) However, for the sake
-of reliability, you should always set it.
+If the "format" is omitted, the plugin will assume JSON.
+
+
+## Complete list of available dataLoader settings
+
+Property | Default | Description
+-------- | ------- | -----------
+async | true | If set to false (not recommended) everything will wait until data is fully loaded
+delimiter | , | [CSV only] a delimiter for columns (use \t for tab delimiters)
+format | json | Type of data: json, csv
+noStyles | false | If set to true no styles will be applied to "Data loading" curtain
+postProcess | | If set to function reference, that function will be called to "post-process" loaded data before passing it on to chart
+showErrors | true | Show loading errors in a chart curtain
+showCurtain | true| Show curtain over the chart area when loading data
+reload | 0 | Reload data every X seconds
+reverse | false | [CSV only] add data points in revers order
+skip | 0 | [CSV only] skip X first rows in data (includes first row if useColumnNames is used)
+timestamp | false | Add current timestamp to data URLs (to avoid caching)
+useColumnNames | false | [CSV only] Use first row in data as column names when parsing
+
+
+## Using in JavaScript Stock Chart
+
+In JavaScript Stock Chart it works exactly the same as in other chart types, 
+with the exception that `dataLoader` is set as a property to the data set 
+definition. I.e.:
+
+```
+var chart = AmCharts.makeChart("chartdiv", {
+  "type": "stock",
+  ...
+  "dataSets": [{
+    "title": "MSFT",
+      "fieldMappings": [{
+        "fromField": "Open",
+        "toField": "open"
+      }, {
+        "fromField": "High",
+        "toField": "high"
+      }, {
+        "fromField": "Low",
+        "toField": "low"
+      }, {
+        "fromField": "Close",
+        "toField": "close"
+      }, {
+        "fromField": "Volume",
+        "toField": "volume"
+      }],
+      "compared": false,
+      "categoryField": "Date",
+      "dataLoader": {
+        "url": "data/MSFT.csv",
+        "format": "csv",
+        "showCurtain": true,
+        "showErrors": true,
+        "async": true,
+        "reverse": true,
+        "delimiter": ",",
+        "useColumnNames": true
+      }
+    }
+  }]
+});
+```
+
+### Can I also load event data the same way?
+
+Sure. You just add a `eventDataLoader` object to your data set. All the same 
+settings apply.
+
+
+## Translating into other languages
+
+Depending on configuration options the plugin will display a small number of 
+text prompts, like 'Data loading...'.
+
+Plugin will try matching chart's `language` property and display text prompts in 
+a corresponding language. For that the plugin needs to have the translations.
+
+Some of the plugin translations are in **lang** subdirectory. Simply include the 
+one you need.
+
+If there is no translation to your language readily available, just grab en.js, 
+copy it and translate.
+
+The structure is simple:
+
+```
+'The phrase in English': 'Translation'
+```
+
+The phrase in English must be left intact.
+
+When you're done, you can include your language as a JavaScript file.
+
+P.S. send us your translation so we can include it for the benefits of other 
+users. Thanks!
 
 
 ## Requirements
