@@ -15,6 +15,24 @@ Most of the times you will just need to provide a URL of the external data
 source - static file or dynamically generated - and it will do the rest.
 
 
+## Important notice
+
+Due to security measures implemented in most of the browsers, the external data 
+loader will work only when the page with the chart or map is loaded via web 
+server.
+
+So, any of the examples loaded locally (file:///) will not work.
+
+The page needs to be loaded via web server (http://) in order to work properly.
+
+Loading data from another domain than the web page is loaded is possible but is 
+a subject for `Access-Control-Allow-Origin` policies defined by the web server 
+you are loading data from.
+
+For more about loading data across domains use the following thread:
+http://stackoverflow.com/questions/1653308/access-control-allow-origin-multiple-origin-domains
+
+
 ## Usage
 
 ### 1) Include the minified version of file of this plugin. I.e.:
