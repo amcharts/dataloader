@@ -229,8 +229,8 @@ http://www.apache.org/licenses/LICENSE-2.0
 ## Changelog
 
 ### 0.9.2
-* Added global data load methods that can be used to load and parse data by code
-  outside plugin
+* Added global data load methods that can be used to load and parse data by code outside plugin
+* Trim CSV column names
 * Translation added: Lithuanian
 
 ### 0.9.1

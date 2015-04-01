@@ -461,6 +461,18 @@ AmCharts.parseCSV = function ( response, options ) {
   if ( options.useColumnNames ) {
     cols = data.shift();
 
+    // normalize column names
+    for ( var x in cols ) {
+      // trim
+      var col = cols[ x ].replace( /^\s+|\s+$/gm, '' );
+
+      // check for empty
+      if ( '' === col )
+        col = 'col' + x;
+
+      cols[ x ] = col;
+    }
+
     if ( 0 < options.skip )
       options.skip--;
   }
