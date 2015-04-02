@@ -169,7 +169,7 @@ AmCharts.addInitHandler( function ( chart ) {
             holder[providerKey] = AmCharts.parseJSON( response, options );
             
             if ( false === holder[providerKey] ) {
-              raiseError( AmCharts.__( 'Error parsing JSON file', chart.language ) + ': ' + l.url, e, options );
+              raiseError( AmCharts.__( 'Error parsing JSON file', chart.language ) + ': ' + l.url, false, options );
               holder[providerKey] = [];
             }
             else {
@@ -183,7 +183,7 @@ AmCharts.addInitHandler( function ( chart ) {
             holder[providerKey] = AmCharts.parseCSV( response, options );
             
             if ( false === holder[providerKey] ) {
-              raiseError( AmCharts.__( 'Error parsing CSV file', chart.language ) + ': ' + l.url, e, options );
+              raiseError( AmCharts.__( 'Error parsing CSV file', chart.language ) + ': ' + l.url, false, options );
               holder[providerKey] = [];
             }
             else {
@@ -193,7 +193,7 @@ AmCharts.addInitHandler( function ( chart ) {
             break;
 
           default:
-            raiseError( AmCharts.__( 'Unsupported data format', chart.language ) + ': ' + options.format, e, options.noStyles );
+            raiseError( AmCharts.__( 'Unsupported data format', chart.language ) + ': ' + options.format, false, options.noStyles );
             break;
         }
 
