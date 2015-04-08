@@ -1,6 +1,6 @@
 # amCharts Data Loader
 
-Version: 0.9.2
+Version: 1.0
 
 
 ## Description
@@ -227,6 +227,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 
 ## Changelog
+
+### 1.0
+* Added GANTT chart support
 
 ### 0.9.2
 * Added global data load methods that can be used to load and parse data by code outside plugin
