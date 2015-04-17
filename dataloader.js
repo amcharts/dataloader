@@ -29,6 +29,14 @@ not apply to any other amCharts products that are covered by different licenses.
  * XML support (?)
  */
 
+/**
+ * Initialize language prompt container
+ */
+AmCharts.translations.dataLoader = {}
+
+/**
+ * Set init handler
+ */
 AmCharts.addInitHandler( function ( chart ) {
 
   /**
