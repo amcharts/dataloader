@@ -25,7 +25,16 @@
         "type": "serial",
         "theme": "dark",
         "dataLoader": {
-          "url": "data/serial2.json"
+          "url": "data/serial2.json",
+          "complete": function () {
+            console.log( "Loading complete" );
+          },
+          "load": function ( options ) {
+            console.log( "File loaded: ", options.url );
+          },
+          "error": function ( options ) {
+            console.log( "Error occured loading file: ", options.url );
+          }
         },
         "categoryField": "year",
         "startDuration": 1,
