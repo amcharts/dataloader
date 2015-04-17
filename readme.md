@@ -234,6 +234,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 ### 1.0.1
 * Added "complete", "load" and "error" properties that can be set with function handlers to be invoked on load completion, successful file load or failed load respectively
 * Fixed language container initialization bug
+* Fixed bug that was causing parse errors not be displayed
 
 ### 1.0
 * Added GANTT chart support
