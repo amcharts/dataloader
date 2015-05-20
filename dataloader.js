@@ -2,7 +2,7 @@
 Plugin Name: amCharts Data Loader
 Description: This plugin adds external data loading capabilities to all amCharts libraries.
 Author: Martynas Majeris, amCharts
-Version: 1.0.3
+Version: 1.0.4
 Author URI: http://www.amcharts.com/
 
 Copyright 2015 amCharts
@@ -83,61 +83,73 @@ AmCharts.addInitHandler( function( chart ) {
   };
 
   /**
-   * Load all files in a row
+   * Create a function that can be used to load data (or reload via API)
    */
-  if ( 'stock' === chart.type ) {
+  l.loadData = function() {
 
-    // delay this a little bit so the chart has the chance to build itself
-    setTimeout( function() {
+    /**
+     * Load all files in a row
+     */
+    if ( 'stock' === chart.type ) {
+
+      // delay this a little bit so the chart has the chance to build itself
+      setTimeout( function() {
+
+        // preserve animation
+        if ( 0 > chart.panelsSettings.startDuration ) {
+          l.startDuration = chart.panelsSettings.startDuration;
+          chart.panelsSettings.startDuration = 0;
+        }
+
+        // cycle through all of the data sets
+        for ( var x = 0; x < chart.dataSets.length; x++ ) {
+          var ds = chart.dataSets[ x ];
+
+          // load data
+          if ( undefined !== ds.dataLoader && undefined !== ds.dataLoader.url ) {
+
+            ds.dataProvider = [];
+            applyDefaults( ds.dataLoader );
+            loadFile( ds.dataLoader.url, ds, ds.dataLoader, 'dataProvider' );
+
+          }
+
+          // load events data
+          if ( undefined !== ds.eventDataLoader && undefined !== ds.eventDataLoader.url ) {
+
+            ds.events = [];
+            applyDefaults( ds.eventDataLoader );
+            loadFile( ds.eventDataLoader.url, ds, ds.eventDataLoader, 'stockEvents' );
+
+          }
+        }
+
+      }, 100 );
+
+    } else {
+
+      applyDefaults( l );
+
+      if ( undefined === l.url )
+        return;
 
       // preserve animation
-      if ( 0 > chart.panelsSettings.startDuration ) {
-        l.startDuration = chart.panelsSettings.startDuration;
-        chart.panelsSettings.startDuration = 0;
+      if ( undefined !== chart.startDuration && ( 0 < chart.startDuration ) ) {
+        l.startDuration = chart.startDuration;
+        chart.startDuration = 0;
       }
 
-      // cycle through all of the data sets
-      for ( var x = 0; x < chart.dataSets.length; x++ ) {
-        var ds = chart.dataSets[ x ];
+      chart.dataProvider = [];
+      loadFile( l.url, chart, l, 'dataProvider' );
 
-        // load data
-        if ( undefined !== ds.dataLoader && undefined !== ds.dataLoader.url ) {
-
-          ds.dataProvider = [];
-          applyDefaults( ds.dataLoader );
-          loadFile( ds.dataLoader.url, ds, ds.dataLoader, 'dataProvider' );
-
-        }
-
-        // load events data
-        if ( undefined !== ds.eventDataLoader && undefined !== ds.eventDataLoader.url ) {
-
-          ds.events = [];
-          applyDefaults( ds.eventDataLoader );
-          loadFile( ds.eventDataLoader.url, ds, ds.eventDataLoader, 'stockEvents' );
-
-        }
-      }
-
-    }, 100 );
-
-  } else {
-
-    applyDefaults( l );
-
-    if ( undefined === l.url )
-      return;
-
-    // preserve animation
-    if ( undefined !== chart.startDuration && ( 0 < chart.startDuration ) ) {
-      l.startDuration = chart.startDuration;
-      chart.startDuration = 0;
     }
 
-    chart.dataProvider = [];
-    loadFile( l.url, chart, l, 'dataProvider' );
+  };
 
-  }
+  /**
+   * Trigger load
+   */
+  l.loadData();
 
   /**
    * Loads a file and determines correct parsing mechanism for it

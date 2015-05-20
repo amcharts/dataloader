@@ -70,11 +70,16 @@
           "enabled": true
         }
       });
+
+      function reloadData() {
+        chart.dataLoader.loadData();
+      }
     </script>
   </head>
 
   <body>
     <div id="chartdiv"></div>
+    <input type="button" value="Trigger data reload" onclick="reloadData();" />
   </body>
 
 </html>

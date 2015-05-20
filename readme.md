@@ -1,6 +1,6 @@
 # amCharts Data Loader
 
-Version: 1.0.3
+Version: 1.0.4
 
 
 ## Description
@@ -156,6 +156,13 @@ Sure. You just add a `eventDataLoader` object to your data set. All the same
 settings apply.
 
 
+## Manually triggering a reload of all data
+
+Once chart is initialized, you can trigger the reload of all data manually by
+calling `chart.dataLoader.loadData()` function. (replace "chart" with the actual
+variable that holds reference to your chart object)
+
+
 ## Translating into other languages
 
 Depending on configuration options the plugin will display a small number of 
@@ -230,6 +237,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 
 ## Changelog
+
+### 1.0.4
+* Added chart.dataLoader.loadData() function which can be used to manually trigger all data reload
 
 ### 1.0.3
 * Fixed the bug where defaults were not being applied properly
