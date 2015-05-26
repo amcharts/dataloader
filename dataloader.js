@@ -2,7 +2,7 @@
 Plugin Name: amCharts Data Loader
 Description: This plugin adds external data loading capabilities to all amCharts libraries.
 Author: Martynas Majeris, amCharts
-Version: 1.0.4
+Version: 1.0.5
 Author URI: http://www.amcharts.com/
 
 Copyright 2015 amCharts
@@ -172,7 +172,7 @@ AmCharts.addInitHandler( function( chart ) {
 
       // error?
       if ( false === response ) {
-        callFunction( options.error, url, options );
+        callFunction( options.error, options, chart );
         raiseError( AmCharts.__( 'Error loading the file', chart.language ) + ': ' + url, false, options );
       } else {
 
@@ -193,13 +193,13 @@ AmCharts.addInitHandler( function( chart ) {
             holder[ providerKey ] = AmCharts.parseJSON( response );
 
             if ( false === holder[ providerKey ] ) {
-              callFunction( options.error, options );
+              callFunction( options.error, options, chart );
               raiseError( AmCharts.__( 'Error parsing JSON file', chart.language ) + ': ' + l.url, false, options );
               holder[ providerKey ] = [];
               return;
             } else {
               holder[ providerKey ] = postprocess( holder[ providerKey ], options );
-              callFunction( options.load, options );
+              callFunction( options.load, options, chart );
             }
 
             break;
@@ -209,19 +209,19 @@ AmCharts.addInitHandler( function( chart ) {
             holder[ providerKey ] = AmCharts.parseCSV( response, options );
 
             if ( false === holder[ providerKey ] ) {
-              callFunction( options.error, options );
+              callFunction( options.error, options, chart );
               raiseError( AmCharts.__( 'Error parsing CSV file', chart.language ) + ': ' + l.url, false, options );
               holder[ providerKey ] = [];
               return;
             } else {
               holder[ providerKey ] = postprocess( holder[ providerKey ], options );
-              callFunction( options.load, options );
+              callFunction( options.load, options, chart );
             }
 
             break;
 
           default:
-            callFunction( options.error, options );
+            callFunction( options.error, options, chart );
             raiseError( AmCharts.__( 'Unsupported data format', chart.language ) + ': ' + options.format, false, options.noStyles );
             return;
         }
@@ -233,7 +233,7 @@ AmCharts.addInitHandler( function( chart ) {
         if ( 0 === l.remaining ) {
 
           // callback
-          callFunction( options.complete );
+          callFunction( options.complete, chart );
 
           // take in the new data
           if ( options.async ) {
@@ -400,9 +400,9 @@ AmCharts.addInitHandler( function( chart ) {
   /**
    * Execute callback function
    */
-  function callFunction( func, param1, param2 ) {
+  function callFunction( func, param1, param2, param3 ) {
     if ( 'function' === typeof func )
-      func.call( l, param1, param2 );
+      func.call( l, param1, param2, param3 );
   }
 
 }, [ 'pie', 'serial', 'xy', 'funnel', 'radar', 'gauge', 'gantt', 'stock', 'map' ] );

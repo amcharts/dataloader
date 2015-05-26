@@ -27,13 +27,13 @@
         "dataLoader": {
           "url": "data/serial2.json",
           "showErrors": true,
-          "complete": function () {
+          "complete": function ( chart ) {
             console.log( "Loading complete" );
           },
-          "load": function ( options ) {
+          "load": function ( options, chart ) {
             console.log( "File loaded: ", options.url );
           },
-          "error": function ( options ) {
+          "error": function ( options, chart ) {
             console.log( "Error occured loading file: ", options.url );
           }
         },
