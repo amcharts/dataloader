@@ -269,7 +269,7 @@ AmCharts.addInitHandler( function( chart ) {
           removeCurtain();
         }
 
-        // schedule another load of necessary
+        // schedule another load if necessary
         if ( options.reload ) {
 
           if ( options.timeout )
@@ -372,7 +372,12 @@ AmCharts.addInitHandler( function( chart ) {
       curtain.style.textAlign = 'center';
       curtain.style.display = 'table';
       curtain.style.fontSize = '20px';
-      curtain.style.background = 'rgba(255, 255, 255, 0.3)';
+      try {
+        curtain.style.background = 'rgba(255, 255, 255, 0.3)';
+      }
+      catch ( e ) {
+        curtain.style.background = 'rgb(255, 255, 255)';
+      }
       curtain.innerHTML = '<div style="display: table-cell; vertical-align: middle;">' + msg + '</div>';
     } else {
       curtain.innerHTML = msg;
