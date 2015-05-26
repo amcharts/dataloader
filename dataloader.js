@@ -262,7 +262,7 @@ AmCharts.addInitHandler( function( chart ) {
           }
 
           // restore default period
-          if ( 'stock' === chart.type && !options.reloading )
+          if ( 'stock' === chart.type && !options.reloading && undefined !== chart.periodSelector )
             chart.periodSelector.setDefaultPeriod();
 
           // remove curtain
