@@ -22,15 +22,11 @@
     var chart = AmCharts.makeChart("chartdiv", {
      "type": "serial",
      "dataLoader": {
-        "url": "data/serial.csv",
-        "format": "csv",
+        "url": "data/serial.json",
+        "format": "json",
         "showErrors": true,
         "noStyles": true,
-        "async": true,
-        "reload": 10,
-        "timestamp": true,
-        "delimiter": ",",
-        "useColumnNames": true
+        "async": true
      },
      "rotate": false,
      "marginTop": 10,
