@@ -623,10 +623,19 @@ AmCharts.CSVToArray = function( strData, strDelimiter ) {
 
     }
 
-
     // Now that we have our value string, let's add
     // it to the data array.
     arrData[ arrData.length - 1 ].push( strMatchedValue );
+  }
+
+  // clear the empty or bad parsed end . csv file must has the same sequence of fields.
+  // this problem is mainly caused by the last delimiter,many program,like libreoffice export csv with LF at the end line.
+  try{
+    if( arrData[arrData.length-1].length!=arrData[arrData.length-2].length){
+        arrData.pop();
+    }
+  }catch (e){
+    //    console.log("the last data is not array,or there is only one element in arrData.");
   }
 
   // Return the parsed data.
