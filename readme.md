@@ -1,6 +1,6 @@
 # amCharts Data Loader
 
-Version: 1.0.7
+Version: 1.0.8
 
 
 ## Description
