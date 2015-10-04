@@ -2,7 +2,7 @@
 Plugin Name: amCharts Data Loader
 Description: This plugin adds external data loading capabilities to all amCharts libraries.
 Author: Martynas Majeris, amCharts
-Version: 1.0.9
+Version: 1.0.10
 Author URI: http://www.amcharts.com/
 
 Copyright 2015 amCharts
@@ -467,7 +467,7 @@ AmCharts.loadFile = function( url, options, handler ) {
   }
 
   // add headers?
-  if ( options.headers.length ) {
+  if ( options.headers !== undefined && options.headers.length ) {
     for ( var i = 0; i < options.headers.length; i++ ) {
       var header = options.headers[ i ];
       request.setRequestHeader( header.key, header.value );

@@ -1,6 +1,6 @@
 # amCharts Data Loader
 
-Version: 1.0.9
+Version: 1.0.10
 
 
 ## Description
@@ -288,6 +288,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 
 ## Changelog
+
+### 1.0.10
+* Fixed error related to headers not being set when using standalone data load functions
 
 ### 1.0.9
 * Plugin will now ignore empty CSV lines by default (configurable with `skipEmpty` property)
