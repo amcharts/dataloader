@@ -477,11 +477,13 @@ AmCharts.loadFile = function( url, options, handler ) {
   // set handler for data if async loading
   request.onreadystatechange = function() {
 
-    if ( 4 === request.readyState && 404 === request.status )
-      handler.call( this, false );
-
-    else if ( 4 === request.readyState && 200 === request.status )
-      handler.call( this, request.responseText );
+    if (4 === request.readyState) {
+      if ([200, 302].indexOf(request.status) !==  -1){
+        handler.call( this, request.responseText );
+      } else {
+        handler.call( this, false );
+      }
+    }
 
   };
 
