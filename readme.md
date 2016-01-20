@@ -1,6 +1,6 @@
 # amCharts Data Loader
 
-Version: 1.0.12
+Version: 1.0.13
 
 
 ## Description
@@ -97,6 +97,7 @@ headers | | An array of objects with two properties (key and value) to attach to
 load | | Callback function to execute when file is successfully loaded (might be invoked multiple times)
 noStyles | false | If set to true no styles will be applied to "Data loading" curtain
 postProcess | | If set to function reference, that function will be called to "post-process" loaded data before passing it on to chart. The handler function will receive two parameters: loaded data, Data Loader options
+progress | | Set this to function reference to track progress of the load. The function will be passed in three parameters: global progress, individual file progress, file URL.
 showErrors | true | Show loading errors in a chart curtain
 showCurtain | true| Show curtain over the chart area when loading data
 reload | 0 | Reload data every X seconds
@@ -189,6 +190,9 @@ loading is complete, error occurs, etc.
 To set custom event handlers, use these config options:
 
 * "complete"
+* "load"
+* "error"
+* "progress"
 
 Example:
 
@@ -207,6 +211,9 @@ AmCharts.makeChart( "chartdiv", {
       },
       "error": function ( options, chart ) {
         console.log( 'Ummm something went wrong loading this file: ' + options.url );
+      },
+      "progress": function( totalPercent, filePercent, url ) {
+        console.log( 'Total percent loaded: ' + Math.round( totalPercent ) );
       }
     }
   }]
@@ -287,6 +294,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 
 ## Changelog
+
+### 1.0.13
+* Added "progress" handler, which can be used to monitor data load progress
 
 ### 1.0.12
 * Better default options handling in external calls to AmCharts.loadFile

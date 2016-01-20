@@ -2,7 +2,7 @@
 Plugin Name: amCharts Data Loader
 Description: This plugin adds external data loading capabilities to all amCharts libraries.
 Author: Martynas Majeris, amCharts
-Version: 1.0.12
+Version: 1.0.13
 Author URI: http://www.amcharts.com/
 
 Copyright 2015 amCharts
@@ -61,6 +61,7 @@ AmCharts.addInitHandler( function( chart ) {
    */
   var l = chart.dataLoader;
   l.remaining = 0;
+  l.percentLoaded = {};
 
   /**
    * Set defaults
@@ -77,6 +78,7 @@ AmCharts.addInitHandler( function( chart ) {
     'skip': 0,
     'skipEmpty': true,
     'useColumnNames': false,
+    'progress': false,
     'reverse': false,
     'reloading': false,
     'complete': false,
@@ -181,6 +183,33 @@ AmCharts.addInitHandler( function( chart ) {
     // increment loader count
     l.remaining++;
 
+    // set percent loaded for this file
+    l.percentLoaded[ url ] = 0;
+
+    // hijack user-defined "progress" handler with our own, so that we can
+    // track progress
+    if ( options.progress !== undefined && typeof( options.progress ) === 'function' && options._progress === undefined ) {
+      options._progress = options.progress;
+      options.progress = function( percent ) {
+        // set progress
+        l.percentLoaded[ url ] = percent;
+
+        // calculate global percent
+        var totalPercent = 0;
+        var fileCount = 0;
+        for ( var x in l.percentLoaded ) {
+          if ( l.percentLoaded.hasOwnProperty( x ) ) {
+            fileCount++;
+            totalPercent += l.percentLoaded[ x ];
+          }
+        }
+        var globalPercent = Math.round( ( totalPercent / fileCount ) * 100 ) / 100;
+
+        // call user function
+        options._progress.call( this, globalPercent, Math.round( percent * 100 ) / 100, url );
+      };
+    }
+
     // load the file
     AmCharts.loadFile( url, options, function( response ) {
 
@@ -259,12 +288,12 @@ AmCharts.addInitHandler( function( chart ) {
 
               // remove curtain
               removeCurtain();
-              
+
             } else {
 
               // add a dataUpdated event to handle post-load stuff
               if ( 'gauge' !== chart.type ) {
-                chart.addListener( "dataUpdated", function( event ) {
+                chart.addListener( 'dataUpdated', function( event ) {
 
                   // restore default period (stock chart)
                   if ( 'stock' === chart.type && !options.reloading && undefined !== chart.periodSelector ) {
@@ -474,7 +503,7 @@ if ( undefined === AmCharts.__ ) {
 AmCharts.loadFile = function( url, options, handler ) {
 
   // prepopulate options with minimal defaults if necessary
-  if ( typeof( options ) !== "object" )
+  if ( typeof( options ) !== 'object' )
     options = {};
   if ( options.async === undefined )
     options.async = true;
@@ -501,6 +530,14 @@ AmCharts.loadFile = function( url, options, handler ) {
     for ( var i = 0; i < options.headers.length; i++ ) {
       var header = options.headers[ i ];
       request.setRequestHeader( header.key, header.value );
+    }
+  }
+
+  // add onprogress handlers
+  if ( options.progress !== undefined && typeof( options.progress ) === 'function' ) {
+    request.onprogress = function( e ) {
+      var complete = ( e.loaded / e.total ) * 100;
+      options.progress.call( this, complete );
     }
   }
 
@@ -599,7 +636,7 @@ AmCharts.parseCSV = function( response, options ) {
 AmCharts.CSVToArray = function( strData, strDelimiter ) {
   // Check to see if the delimiter is defined. If not,
   // then default to comma.
-  strDelimiter = ( strDelimiter || "," );
+  strDelimiter = ( strDelimiter || ',' );
 
   // Create a regular expression to parse the CSV values.
   var objPattern = new RegExp(
