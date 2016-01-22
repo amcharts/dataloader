@@ -2,7 +2,7 @@
 Plugin Name: amCharts Data Loader
 Description: This plugin adds external data loading capabilities to all amCharts libraries.
 Author: Martynas Majeris, amCharts
-Version: 1.0.13
+Version: 1.0.14
 Author URI: http://www.amcharts.com/
 
 Copyright 2015 amCharts
@@ -78,6 +78,7 @@ AmCharts.addInitHandler( function( chart ) {
     'skip': 0,
     'skipEmpty': true,
     'useColumnNames': false,
+    'init': false,
     'progress': false,
     'reverse': false,
     'reloading': false,
@@ -113,6 +114,7 @@ AmCharts.addInitHandler( function( chart ) {
           // load data
           if ( undefined !== ds.dataLoader && undefined !== ds.dataLoader.url ) {
 
+            callFunction( ds.dataLoader.init, ds.dataLoader, chart );
             ds.dataProvider = [];
             applyDefaults( ds.dataLoader );
             loadFile( ds.dataLoader.url, ds, ds.dataLoader, 'dataProvider' );
@@ -122,6 +124,7 @@ AmCharts.addInitHandler( function( chart ) {
           // load events data
           if ( undefined !== ds.eventDataLoader && undefined !== ds.eventDataLoader.url ) {
 
+            callFunction( ds.eventDataLoader.init, ds.eventDataLoader, chart );
             ds.events = [];
             applyDefaults( ds.eventDataLoader );
             loadFile( ds.eventDataLoader.url, ds, ds.eventDataLoader, 'stockEvents' );
@@ -132,6 +135,8 @@ AmCharts.addInitHandler( function( chart ) {
       }, 100 );
 
     } else {
+
+      callFunction( l.init, l, chart );
 
       applyDefaults( l );
 

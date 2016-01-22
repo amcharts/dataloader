@@ -1,6 +1,6 @@
 # amCharts Data Loader
 
-Version: 1.0.13
+Version: 1.0.14
 
 
 ## Description
@@ -92,6 +92,7 @@ async | true | If set to false (not recommended) everything will wait until data
 complete | | Callback function to execute when loader is done
 delimiter | , | [CSV only] a delimiter for columns (use \t for tab delimiters)
 error | | Callback function to execute if file load fails
+init | | Callback function to execute when Data Loader is initialized, before any loading starts
 format | json | Type of data: json, csv
 headers | | An array of objects with two properties (key and value) to attach to HTTP request
 load | | Callback function to execute when file is successfully loaded (might be invoked multiple times)
@@ -190,6 +191,7 @@ loading is complete, error occurs, etc.
 To set custom event handlers, use these config options:
 
 * "complete"
+* "init"
 * "load"
 * "error"
 * "progress"
@@ -203,6 +205,9 @@ AmCharts.makeChart( "chartdiv", {
     ...,
     "dataLoader": {
       "url": "data.json",
+      "init": function ( options, chart ) {
+        console.log( 'Loading started' );
+      },
       "load": function ( options, chart ) {
         console.log( 'Loaded file: ' + options.url );
       },
@@ -294,6 +299,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 
 ## Changelog
+
+### 1.0.14
+* Added "init" event handler, which is called **before** loading starts
 
 ### 1.0.13
 * Added "progress" handler, which can be used to monitor data load progress
