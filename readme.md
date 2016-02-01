@@ -1,6 +1,6 @@
 # amCharts Data Loader
 
-Version: 1.0.14
+Version: 1.0.15
 
 
 ## Description
@@ -91,6 +91,7 @@ Property | Default | Description
 async | true | If set to false (not recommended) everything will wait until data is fully loaded
 complete | | Callback function to execute when loader is done
 delimiter | , | [CSV only] a delimiter for columns (use \t for tab delimiters)
+emptyAs | undefined | [CSV only] replace empty columns with whatever is set here
 error | | Callback function to execute if file load fails
 init | | Callback function to execute when Data Loader is initialized, before any loading starts
 format | json | Type of data: json, csv
@@ -299,6 +300,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 
 ## Changelog
+
+### 1.0.15
+* Added "emptyAs" config property. Empty CSV values will be set to this (default `undefined`)
 
 ### 1.0.14
 * Added "init" event handler, which is called **before** loading starts
