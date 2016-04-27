@@ -303,7 +303,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 ## Changelog
 
 ### 1.0.16
-* Added "numberFields" config array.
+* Added "numberFields" config array
 
 ### 1.0.15
 * Added "emptyAs" config property. Empty CSV values will be set to this (default `undefined`)
