@@ -227,6 +227,29 @@ AmCharts.makeChart( "chartdiv", {
 } );
 ```
 
+## Using Data Loader's standalone functions
+
+Data Loader's load and parsing functions are available for external standalone use.
+
+The three available functions are as follows:
+
+Function | Parameters | Description
+-------- | ---------- | -----------
+AmCharts.loadFile() | url, options, callback | Loads the file and passes it into callback function (unparsed)
+AmCharts.parseCSV() | data, options | Parses data in string CSV format and returns JavaScript Array
+AmCharts.parseJSON() | data | Parses data in string JSON format and returns JavaScript Array
+
+The options passed into standalone functions are the same as discussed in [Complete list of available dataLoader settings](#complete-list-of-available-dataloader-settings) chapter.
+
+### Example
+
+```
+AmCharts.loadFile(dataset_url, {}, function(data) {
+  var chartData = AmCharts.parseJSON(data);
+  console.log(chartData); // this will output an array
+});
+```
+
 ## Translating into other languages
 
 Depending on configuration options the plugin will display a small number of 
