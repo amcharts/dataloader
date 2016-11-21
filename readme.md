@@ -241,11 +241,23 @@ AmCharts.parseJSON() | data | Parses data in string JSON format and returns Java
 
 The options passed into standalone functions are the same as discussed in [Complete list of available dataLoader settings](#complete-list-of-available-dataloader-settings) chapter.
 
-### Example
+### JSON Example
 
 ```
 AmCharts.loadFile(dataset_url, {}, function(data) {
   var chartData = AmCharts.parseJSON(data);
+  console.log(chartData); // this will output an array
+});
+```
+
+### CSV Example
+
+```
+AmCharts.loadFile(dataset_url, {}, function(data) {
+  var chartData = AmCharts.parseCSV(data, {
+    "delimiter": ",",
+    "useColumnNames": true
+  });
   console.log(chartData); // this will output an array
 });
 ```
