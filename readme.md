@@ -83,6 +83,22 @@ data, such as "separator".
 
 If the "format" is omitted, the plugin will assume JSON.
 
+### Using in object-based chart setup
+
+If you’re still using object-based chart setup, assign dataLoader-related config object to chart object’s `dataLoader` property:
+
+```
+var chart = new AmCharts.AmSerialChart();
+...
+chart["dataLoader"] = {
+  "url": "data.csv",
+  "format": "csv",
+  "delimiter": ",",
+  "useColumnNames": true,
+  "skip": 1
+};
+```
+
 
 ## Complete list of available dataLoader settings
 
