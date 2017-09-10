@@ -219,7 +219,7 @@ AmCharts.addInitHandler( function( chart ) {
 
     // load the file
     AmCharts.loadFile( url, options, function( response ) {
-      console.log( response );
+
       // error?
       if ( false === response ) {
         callFunction( options.error, options, chart );
